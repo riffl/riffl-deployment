@@ -126,6 +126,9 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/trino-iceberg-
 ```
 
 #### Create tables in Athena
+
+The S3 bucket below needs to be accessible from the EMR cluster.
+
 <pre><code>CREATE DATABASE riffl;
 
 CREATE TABLE riffl.product_optimized (
