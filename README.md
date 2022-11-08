@@ -1,3 +1,3 @@
 # Riffl deployment
 
-[Riffl on AWS](emr-cli/) - with example application running using EMR, Glue, Athena, and Apache Iceberg
+[Riffl on AWS with EMR](emr-cli/) - with example application running using Glue, Athena, and Apache Iceberg
