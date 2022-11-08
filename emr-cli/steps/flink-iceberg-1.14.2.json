@@ -1,0 +1,12 @@
+[
+  {
+    "Type": "CUSTOM_JAR",
+    "Name": "Flink_Iceberg_AWS",
+    "ActionOnFailure": "CONTINUE",
+    "Jar": "command-runner.jar",
+    "Args": ["sudo","-u","flink","wget","-P","/usr/lib/flink/lib/",
+"https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.131/url-connection-client-2.17.131.jar",
+"https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.131/bundle-2.17.131.jar",
+"https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-flink-runtime-1.14/0.13.2/iceberg-flink-runtime-1.14-0.13.2.jar"]
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "Type": "CUSTOM_JAR",
+    "Name": "Flink_Hadoop_Filesystem_Plugin_Directory",
+    "ActionOnFailure": "CONTINUE",
+    "Jar": "command-runner.jar",
+    "Args": ["sudo","-u","flink","mkdir","-p","/usr/lib/flink/plugins/flink-s3-fs-hadoop/"]
+  },
+  {
+    "Type": "CUSTOM_JAR",
+    "Name": "Flink_Hadoop_Filesystem_Plugin_JAR",
+    "ActionOnFailure": "CONTINUE",
+    "Jar": "command-runner.jar",
+    "Args": ["sudo","-u","flink", "cp", "/usr/lib/flink/opt/flink-s3-fs-hadoop-1.14.2.jar",
+      "/usr/lib/flink/plugins/flink-s3-fs-hadoop/"]
+  }
+]
