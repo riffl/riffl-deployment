@@ -10,9 +10,10 @@
   https://aws.amazon.com/cli/
 - Open terminal and `cd riffl-deployment/emr-cli`
 
+### Environment
 Set environment variables with ClusterId ([how to provision a cluster](#example-application)), EC2 key pair name and configuration details. 
 
-<pre><code>export CLUSTER_ID=j-24K10MJZTSTQ0
+<pre><code>export CLUSTER_ID=j-2XXXXXXXXXXI
 export KEY_PAIR_FILE=<b>&lt;SSH key path&gt;</b>.pem
 
 export CONFIG_PATH=example/
@@ -23,8 +24,7 @@ export FLINK_VERSION=1.14.2
 
 ## Dependencies
 ### Core
-```
-# Presto filesystem plugin - checkpointing
+<pre><code># Presto filesystem plugin - checkpointing
 aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-fs-presto-$FLINK_VERSION.json
 
 # Hadoop filesystem plugin
@@ -34,8 +34,9 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-fs-hadoo
 aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/riffl-$RIFFL_VERSION-$FLINK_VERSION.json
 
 # Configuration files
+# <b>NOTE: Correct S3 bucket must be configured in "application-glue-iceberg.yaml" before uploading files</b>
 aws emr put --cluster-id $CLUSTER_ID --src ./$CONFIG_PATH --dest /home/hadoop/ --key-pair-file $KEY_PAIR_FILE
-```
+</code></pre>
 
 ### Optional
 
@@ -57,7 +58,7 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-kinesis-
 
 * Iceberg on AWS
 ```
-aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-format-iceberg-$FLINK_VERSION.json
+aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-iceberg-$FLINK_VERSION.json
 ```
 
 * Parquet
@@ -77,8 +78,7 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-format-o
 
 
 ## Deploy
-```
-aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Name": "Riffl Submit", 
+```aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Name": "Riffl Submit", 
 "ActionOnFailure": "CONTINUE", "Jar": "command-runner.jar", 
 "Args": ["sudo","-u","flink","flink","run","-m","yarn-cluster", 
 "/home/hadoop/riffl-runtime-'$RIFFL_VERSION'-'$FLINK_VERSION'-all.jar", 
@@ -117,11 +117,11 @@ ClusterId: j-2XXXXXXXXXXI
 ```
 
 #### Configure dependencies
-Copy ClusterId and follow steps above setting up [Core](#core) as well as [Optional](#optional) `Iceberg on AWS` and `Parquet` dependencies. 
+Copy ClusterId and follow steps above setting up [Environment](#environment), [Core](#core) as well as [Optional](#optional) `Iceberg on AWS` and `Parquet` dependencies. 
 
 Reconfigure Apache Trino to use Glue.
 ```
-aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/trino-iceberg-glue.json
+aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./example/steps/trino-iceberg-glue.json
 ```
 
 #### Create tables in Athena
@@ -131,12 +131,13 @@ The S3 bucket below needs to be accessible from the EMR cluster.
 <pre><code>CREATE DATABASE riffl;
 
 CREATE TABLE riffl.product_optimized (
-  product_id INT,
-  product_type INT,
-  product_name STRING,
-  product_desc STRING,
-  product_price DECIMAL(10, 2),
-  product_timestamp BIGINT, 
+  id BIGINT,
+  type INT,
+  name STRING,
+  price DECIMAL(10, 2),
+  buyer_name STRING,
+  buyer_address STRING,
+  ts TIMESTAMP,
   dt STRING,
   hr STRING) 
 PARTITIONED BY (dt, hr) 
@@ -148,12 +149,13 @@ TBLPROPERTIES (
 );
 
 CREATE TABLE riffl.product_default (
-  product_id INT,
-  product_type INT,
-  product_name STRING,
-  product_desc STRING,
-  product_price DECIMAL(10, 2),
-  product_timestamp BIGINT, 
+  id BIGINT,
+  type INT,
+  name STRING,
+  price DECIMAL(10, 2),
+  buyer_name STRING,
+  buyer_address STRING,
+  ts TIMESTAMP,
   dt STRING,
   hr STRING) 
 PARTITIONED BY (dt, hr) 
