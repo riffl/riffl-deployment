@@ -10,7 +10,7 @@
   https://aws.amazon.com/cli/
 - Open terminal and `cd riffl-deployment/emr-cli`
 
-Set environment variables with ClusterId, EC2 key pair name and configuration details
+Set environment variables with ClusterId ([how to provision a cluster](#example-application)), EC2 key pair name and configuration details. 
 
 <pre><code>export CLUSTER_ID=j-24K10MJZTSTQ0
 export KEY_PAIR_FILE=<b>&lt;SSH key path&gt;</b>.pem
@@ -98,8 +98,7 @@ Data is produced into two Glue tables with one storing data as-is and another ap
 
 #### Provision an EMR cluster with Glue as a metastore  
 
-<pre><code>
-aws emr create-cluster --release-label emr-6.7.0 --name Riffl \
+<pre><code>aws emr create-cluster --release-label emr-6.7.0 --name Riffl \
 --applications Name=Flink Name=Hive Name=Hadoop Name=Trino Name=Spark \
 --configurations file://./configurations.json \
 --region eu-west-1 \
@@ -118,7 +117,7 @@ ClusterId: j-2XXXXXXXXXXI
 ```
 
 #### Configure dependencies
-Copy ClusterId and follow steps above setting up `Core` as well as `Optional` Apache Iceberg and Parquet dependencies. 
+Copy ClusterId and follow steps above setting up [Core](#core) as well as [Optional](#optional) `Iceberg on AWS` and `Parquet` dependencies. 
 
 Reconfigure Apache Trino to use Glue.
 ```
