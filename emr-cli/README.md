@@ -182,17 +182,17 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Nam
 use iceberg.riffl;
 
 SELECT 
-  avg(product_price), 
+  avg(price), 
   max(ts)
 FROM product_optimized
-WHERE product_type = 1 
-  AND dt = '2022-11-02';
+WHERE type = 1 
+  AND dt = '2022-11-09';
   
 SELECT 
-  avg(product_price), 
+  avg(price), 
   max(ts)
 FROM product_default
-WHERE product_type = 1 
-  AND dt = '2022-11-02';
+WHERE type = 1 
+  AND dt = '2022-11-09';
 ```
 
