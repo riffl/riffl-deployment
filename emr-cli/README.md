@@ -176,7 +176,16 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Nam
 "--application","/home/hadoop/'$CONFIG_PATH$CONFIG_NAME'"]}]'
 ```
 
-#### Run SQL Queries in Athena
+#### Run SQL Queries in Apache Trino or Athena
+
+* Login to the cluster and execute Trino CLI
+``` 
+aws emr ssh --cluster-id $CLUSTER_ID --key-pair-file $KEY_PAIR_FILE
+
+trino-cli
+```
+
+* Execute queries
 
 ```
 use iceberg.riffl;
