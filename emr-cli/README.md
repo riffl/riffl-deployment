@@ -100,14 +100,14 @@ Data is produced into two Glue tables with one storing data as-is and another ap
 
 <pre><code>aws emr create-cluster --release-label emr-6.7.0 --name Riffl \
 --applications Name=Flink Name=Hive Name=Hadoop Name=Trino Name=Spark \
---configurations file://./configurations.json \
+--configurations file://./example/configurations/glue.json \
 --region eu-west-1 \
 --log-uri s3://<b>&lt;S3 logs bucket&gt;</b>/elasticmapreduce/ \
 --instance-fleets \
 InstanceFleetType=MASTER,TargetSpotCapacity=1,InstanceTypeConfigs='{InstanceType=m5d.xlarge}' \
 InstanceFleetType=CORE,TargetSpotCapacity=2,InstanceTypeConfigs='{InstanceType=m5d.xlarge}' \
 --service-role EMR_DefaultRole \
---ec2-attributes KeyName=<b>&lt;EC2 key pair&gt;</b>,InstanceProfile=EMR_EC2_DefaultRole \
+--ec2-attributes KeyName=<b>&lt;EC2 key pair name&gt;</b>,InstanceProfile=EMR_EC2_DefaultRole \
 --steps file://./steps/flink-hadoop-user.json
 </code></pre>
 e.g. output
