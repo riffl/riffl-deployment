@@ -78,7 +78,8 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-format-o
 
 
 ## Deploy
-```aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Name": "Riffl Submit", 
+```
+aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Name": "Riffl Submit", 
 "ActionOnFailure": "CONTINUE", "Jar": "command-runner.jar", 
 "Args": ["sudo","-u","flink","flink","run","-m","yarn-cluster", 
 "/home/hadoop/riffl-runtime-'$RIFFL_VERSION'-'$FLINK_VERSION'-all.jar", 
