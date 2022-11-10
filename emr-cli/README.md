@@ -177,6 +177,10 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Nam
 "--application","/home/hadoop/'$CONFIG_PATH$CONFIG_NAME'"]}]'
 ```
 
+#### Monitor
+Applicaion UI interface is available via YARN resource manager -> Tracking UI, follow [EMR web interfaces](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) guide for access.
+
+
 #### Run SQL Queries in Apache Trino or Athena
 
 * Login to the cluster and execute Trino CLI
