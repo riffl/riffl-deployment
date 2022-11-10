@@ -196,14 +196,16 @@ trino-cli
 use iceberg.riffl;
 
 SELECT 
-  avg(price), 
+  avg(price),
+  min(ts),
   max(ts)
 FROM product_optimized
 WHERE type = 1 
   AND dt = '2022-11-09';
   
 SELECT 
-  avg(price), 
+  avg(price),
+  min(ts),
   max(ts)
 FROM product_default
 WHERE type = 1 
