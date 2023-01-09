@@ -1,0 +1,46 @@
+{
+  "ApplicationName": "RifflApplication",
+  "ApplicationDescription": "Riffl application",
+  "RuntimeEnvironment": "FLINK-1_15",
+  "ServiceExecutionRole": "arn:aws:iam::123456789:role/ka-riffl-application-role",
+  "CloudWatchLoggingOptions":[
+    {
+      "LogStreamARN":"arn:aws:logs:eu-west-1:123456789:log-group:/aws/kinesis-analytics/RifflApplication:log-stream:kinesis-analytics-log-stream"
+    }
+  ],
+  "ApplicationConfiguration": {
+    "ApplicationCodeConfiguration": {
+      "CodeContent": {
+        "S3ContentLocation": {
+          "BucketARN": "arn:aws:s3:::<S3 bucket>",
+          "FileKey": "riffl-runtime-kda-0.3.0-all.jar"
+        }
+      },
+      "CodeContentType": "ZIPFILE"
+    },
+    "EnvironmentProperties": {
+      "PropertyGroups": [
+        {
+          "PropertyGroupId": "RifflConfigProperties",
+          "PropertyMap": {
+            "application": "s3://<S3 bucket>/application-glue-iceberg-kda.yaml"
+          }
+        }
+      ]
+    },
+    "FlinkApplicationConfiguration": {
+      "ParallelismConfiguration": {
+        "ConfigurationType": "CUSTOM",
+        "Parallelism": 8,
+        "ParallelismPerKPU": 8,
+        "AutoScalingEnabled": false
+      },
+      "CheckpointConfiguration": {
+        "ConfigurationType": "CUSTOM",
+        "CheckpointingEnabled": true,
+        "CheckpointInterval": 120000
+      }
+    }
+  }
+}
+

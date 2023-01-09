@@ -1,0 +1,8 @@
+{
+  "ApplicationName": "RifflApplication",
+  "RunConfiguration": {
+    "ApplicationRestoreConfiguration": {
+      "ApplicationRestoreType": "RESTORE_FROM_LATEST_SNAPSHOT"
+    }
+  }
+}
