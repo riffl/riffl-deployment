@@ -4,7 +4,8 @@
     "Properties": {
       "taskmanager.numberOfTaskSlots": "4",
       "taskmanager.memory.process.size": "10g",
-      "env.java.home": "/usr/lib/jvm/java-11-amazon-corretto.x86_64"
+      "env.java.home": "/usr/lib/jvm/java-11-amazon-corretto.x86_64",
+      "env.java.opts": "-Djava.io.tmpdir=/mnt/tmp/"
     }
   },
   {
@@ -21,7 +22,6 @@
       "hive.metastore.schema.verification": "false"
     }
   },
-
   {
     "Classification": "hadoop-env",
     "Configurations": [
@@ -42,8 +42,10 @@
     }
   },
   {
-    "Classification":"iceberg-defaults",
-    "Properties":{"iceberg.enabled":"true"}
+    "Classification": "iceberg-defaults",
+    "Properties": {
+      "iceberg.enabled": "true"
+    }
   },
   {
     "Classification": "trino-connector-hive",

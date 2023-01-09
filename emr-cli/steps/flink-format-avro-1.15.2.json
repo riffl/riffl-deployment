@@ -1,0 +1,10 @@
+[
+  {
+    "Type": "CUSTOM_JAR",
+    "Name": "Flink_Format_Avro",
+    "ActionOnFailure": "CONTINUE",
+    "Jar": "command-runner.jar",
+    "Args": ["sudo","-u","flink","wget","-P","/usr/lib/flink/lib/",
+"https://repo1.maven.org/maven2/org/apache/flink/flink-sql-avro/1.15.2/flink-sql-avro-1.15.2.jar"]
+  }
+]

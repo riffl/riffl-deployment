@@ -18,8 +18,8 @@ export KEY_PAIR_FILE=<b>&lt;SSH key path&gt;</b>.pem
 
 export CONFIG_PATH=example/
 export CONFIG_NAME=application-glue-iceberg.yaml
-export RIFFL_VERSION=0.2.0
-export FLINK_VERSION=1.14.2
+export RIFFL_VERSION=0.3.0
+export FLINK_VERSION=1.15.2
 </code></pre>
 
 ## Dependencies
@@ -82,7 +82,7 @@ aws emr add-steps --cluster-id $CLUSTER_ID --steps file://./steps/flink-format-o
 aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Name": "Riffl Submit", 
 "ActionOnFailure": "CONTINUE", "Jar": "command-runner.jar", 
 "Args": ["sudo","-u","flink","flink","run","-m","yarn-cluster", 
-"/home/hadoop/riffl-runtime-'$RIFFL_VERSION'-'$FLINK_VERSION'-all.jar", 
+"/home/hadoop/riffl-runtime.jar", 
 "--application","/home/hadoop/'$CONFIG_PATH$CONFIG_NAME'"]}]'
 
 # SSH
@@ -170,10 +170,10 @@ TBLPROPERTIES (
 
 #### Deploy
 ```
-aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Name": "Riffl Submit",
-"ActionOnFailure": "CONTINUE", "Jar": "command-runner.jar",
-"Args": ["sudo","-u","flink","flink","run","-m","yarn-cluster",
-"/home/hadoop/riffl-runtime-'$RIFFL_VERSION'-'$FLINK_VERSION'-all.jar",
+aws emr add-steps --cluster-id $CLUSTER_ID --steps '[{"Type": "CUSTOM_JAR", "Name": "Riffl Submit", 
+"ActionOnFailure": "CONTINUE", "Jar": "command-runner.jar", 
+"Args": ["sudo","-u","flink","flink","run","-m","yarn-cluster", 
+"/home/hadoop/riffl-runtime.jar", 
 "--application","/home/hadoop/'$CONFIG_PATH$CONFIG_NAME'"]}]'
 ```
 
