@@ -1,0 +1,25 @@
+[
+  {
+    "Type": "CUSTOM_JAR",
+    "Name": "Riffl JAR cleanup",
+    "ActionOnFailure": "CONTINUE",
+    "Jar": "command-runner.jar",
+    "Args": ["rm","-f","/home/hadoop/riffl-runtime-0.3.0-all.jar"]
+  },
+  {
+    "Type": "CUSTOM_JAR",
+    "Name": "Riffl JAR",
+    "ActionOnFailure": "CONTINUE",
+    "Jar": "command-runner.jar",
+    "Args": ["wget","-P","/home/hadoop/",
+"https://github.com/riffl/riffl/releases/download/release-0.3.0/riffl-runtime-0.3.0-all.jar"]
+  },
+  {
+    "Type": "CUSTOM_JAR",
+    "Name": "Riffl JAR Symlink",
+    "ActionOnFailure": "CONTINUE",
+    "Jar": "command-runner.jar",
+    "Args": ["ln","-sf","/home/hadoop/riffl-runtime-0.3.0-all.jar",
+      "/home/hadoop/riffl-runtime.jar"]
+  }
+]

@@ -13,6 +13,8 @@ execution:
     execution.checkpointing.mode: EXACTLY_ONCE
     state.savepoints.dir: s3p://${properties.s3.bucket}/state/savepoints
     state.checkpoints.dir: s3p://${properties.s3.bucket}/state/checkpoints
+metrics:
+  storeUri: s3://${properties.s3.bucket}/metrics/
 catalogs:
   - create: " 
       CREATE CATALOG ${properties.catalog.name} WITH (
@@ -56,15 +58,11 @@ sources:
         "
 sinks:
   - table: "glue.riffl.product_optimized"
-    query: "
-      SELECT * FROM source_product"
-    parallelism: 8
+    query: "SELECT * FROM source_product"
     distribution:
-      className: "io.riffl.sink.row.DistributeByTaskAssigner"
+      className: "io.riffl.sink.row.DistributeByFactory"
       properties:
         keys:
           - "type"
   - table: "glue.riffl.product_default"
-    query: "
-      SELECT * FROM source_product"
-    parallelism: 8
+    query: "SELECT * FROM source_product"
