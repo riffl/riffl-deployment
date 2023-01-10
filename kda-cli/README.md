@@ -25,7 +25,7 @@ export RIFFL_RELEASE=https://github.com/riffl/riffl/releases/download/release-$R
 </code></pre>
 
 ## Dependencies
-<pre><code># Download and upload Riffl KDA runtime to S3
+<pre><code># Download locally and upload Riffl KDA runtime to S3
 curl -L -o riffl-runtime-kda-$RIFFL_VERSION-all.jar $RIFFL_RELEASE
 aws s3 cp riffl-runtime-kda-$RIFFL_VERSION-all.jar s3://$CONFIG_BUCKET/
 
