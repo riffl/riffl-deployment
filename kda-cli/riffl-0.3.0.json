@@ -31,8 +31,8 @@
     "FlinkApplicationConfiguration": {
       "ParallelismConfiguration": {
         "ConfigurationType": "CUSTOM",
-        "Parallelism": 8,
-        "ParallelismPerKPU": 8,
+        "Parallelism": 4,
+        "ParallelismPerKPU": 4,
         "AutoScalingEnabled": false
       },
       "CheckpointConfiguration": {
