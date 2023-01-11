@@ -31,7 +31,7 @@ aws s3 cp riffl-runtime-kda-$RIFFL_VERSION-all.jar s3://$CONFIG_BUCKET/
 
 # Upload configuration file
 # <b>NOTE: Correct S3 bucket must be configured before uploading the config file</b>
-aws s3 cp example/$CONFIG_NAME s3://CONFIG_BUCKET/$CONFIG_NAME
+aws s3 cp example/$CONFIG_NAME s3://$CONFIG_BUCKET/$CONFIG_NAME
 </code></pre>
 
 
