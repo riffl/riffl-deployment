@@ -1,0 +1,80 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: riffl-io
+spec:
+  image: eu.gcr.io/PROJECT_ID/riffl:0.4-SNAPSHOT
+  flinkVersion: v1_15
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "4"
+    state.backend: rocksdb
+    state.savepoints.dir: gs://BUCKET/checkpoints/savepoints
+    state.checkpoints.dir: gs://BUCKET/checkpoints/checkpoints
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: "2g"
+      cpu: 1
+  taskManager:
+    resource:
+      memory: "12g"
+      cpu: 4
+  podTemplate:
+    spec:
+      containers:
+        - name: flink-main-container
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
+          resources:
+            requests:
+              ephemeral-storage: "2Gi"
+            limits:
+              ephemeral-storage: "4Gi"
+          volumeMounts:
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: riffl-key
+        - name: flink-volume
+          emptyDir:
+            sizeLimit: 500Mi
+  logConfiguration:
+    "log4j-console.properties": |
+      rootLogger.level = INFO
+      rootLogger.appenderRef.file.ref = LogFile
+      rootLogger.appenderRef.console.ref = LogConsole
+      appender.file.name = LogFile
+      appender.file.type = File
+      appender.file.append = false
+      appender.file.fileName = ${sys:log.file}
+      appender.file.layout.type = PatternLayout
+      appender.file.layout.pattern = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %-60c %x - %m%n
+      appender.console.name = LogConsole
+      appender.console.type = CONSOLE
+      appender.console.layout.type = PatternLayout
+      appender.console.layout.pattern = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p %-60c %x - %m%n
+      logger.akka.name = akka
+      logger.akka.level = INFO
+      logger.kafka.name= org.apache.kafka
+      logger.kafka.level = INFO
+      logger.hadoop.name = org.apache.hadoop
+      logger.hadoop.level = INFO
+      logger.zookeeper.name = org.apache.zookeeper
+      logger.zookeeper.level = INFO
+      logger.aws.name = com.amazonaws
+      logger.aws.level = INFO
+      logger.riffl.name = io.riffl
+      logger.riffl.level = DEBUG
+      logger.netty.name = org.apache.flink.shaded.akka.org.jboss.netty.channel.DefaultChannelPipeline
+      logger.netty.level = OFF
+  job:
+    jarURI: local:///opt/flink/usrlib/artifacts/riffl-runtime.jar
+    entryClass:  io.riffl.Riffl
+    args: ["--application", "gs://BUCKET/application-gcp.yaml"]
+    parallelism: 12
+    upgradeMode: savepoint
+    state: running
+    savepointTriggerNonce: 123
